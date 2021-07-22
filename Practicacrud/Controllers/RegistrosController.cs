@@ -32,6 +32,7 @@ namespace Practicacrud.Controllers
         {
             try
             {
+                registro.Estado = 1;
                 _applicationDb.Add(registro);
                 _applicationDb.SaveChanges();
             }

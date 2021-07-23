@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Practicacrud.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationConsumidor,ConsumidorRole,string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -20,10 +20,10 @@ namespace Practicacrud.Data
             builder.Entity<Registro>(re =>
             {
                 re.HasKey(x => x.Codigo);
-                re.Property(x => x.Nombre).HasMaxLength(100).IsUnicode(false);
-                re.Property(x => x.Apellido).HasMaxLength(100).IsUnicode(false);
-                re.Property(x => x.Direccion).HasMaxLength(250).IsUnicode(false);
-                re.Property(x => x.Estado).IsUnicode(false);
+                re.Property(x => x.Nombre).IsRequired().HasMaxLength(100).IsUnicode(false);
+                re.Property(x => x.Apellido).IsRequired().HasMaxLength(100).IsUnicode(false);
+                re.Property(x => x.Direccion).IsRequired().HasMaxLength(250).IsUnicode(false);
+                re.Property(x => x.Estado).IsRequired().IsUnicode(false);
             });
         }
     }

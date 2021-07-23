@@ -32,9 +32,18 @@ namespace Practicacrud
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<ApplicationConsumidor, ConsumidorRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.ConfigureApplicationCookie(ck =>
+            {
+                ck.Cookie.HttpOnly = true;
+                ck.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                ck.LoginPath = "/Identity/Account/Login";
+                ck.AccessDeniedPath= "/Identity/Account/AccessDenied";
+                ck.SlidingExpiration = true;
+            });
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

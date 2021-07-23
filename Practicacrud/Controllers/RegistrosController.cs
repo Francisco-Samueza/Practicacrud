@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Practicacrud.Data;
 using Practicacrud.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace Practicacrud.Controllers
 {
+    [Authorize]
     public class RegistrosController : Controller
     {
         private readonly ApplicationDbContext _applicationDb;
@@ -16,6 +19,7 @@ namespace Practicacrud.Controllers
             _applicationDb = applicationDb;
         }
         //INDEX
+        [Authorize(Roles = "Propietario,Cliente")]
         public IActionResult Index()
         {
             List<Registro> registros = new List<Registro>();
@@ -23,16 +27,19 @@ namespace Practicacrud.Controllers
             return View(registros);
         }
         //CREAR
+
+        [Authorize(Roles = "Propietario")]
         public IActionResult Create()
         {
             return View(); 
         }
+
+        [Authorize(Roles = "Propietario")]
         [HttpPost]
         public IActionResult Create(Registro registro)
         {
             try
             {
-                registro.Estado = 1;
                 _applicationDb.Add(registro);
                 _applicationDb.SaveChanges();
             }
@@ -42,7 +49,10 @@ namespace Practicacrud.Controllers
             }
             return RedirectToAction("Index");
         }
+
         //EDITAR
+
+        [Authorize(Roles = "Propietario")]
         public IActionResult Edit(int id )
         {
             if(id==0)
@@ -52,6 +62,8 @@ namespace Practicacrud.Controllers
                 return RedirectToAction("Index");
             return View(registro);
         }
+
+        [Authorize(Roles = "Propietario")]
         [HttpPost]
         public IActionResult Edit(int id, Registro registro)
         {
@@ -69,7 +81,10 @@ namespace Practicacrud.Controllers
             }
             return RedirectToAction("Index");
         }
+
         //DETALLES
+
+        [Authorize(Roles = "Propietario")]
         public IActionResult Details(int id)
         {
             if(id==0)
@@ -79,7 +94,10 @@ namespace Practicacrud.Controllers
                 return RedirectToAction("Index");
             return View(registro);
         }
+
         //DESACTIVAR
+
+        [Authorize(Roles = "Propietario")]
         public IActionResult Desactivar(int id )
         {
             if(id==0)
@@ -98,7 +116,10 @@ namespace Practicacrud.Controllers
             }
             return RedirectToAction("Index");
         }
+
         //ACTIVAR
+
+        [Authorize(Roles = "Propietario")]
         public IActionResult Activar(int id)
         {
             if (id == 0)

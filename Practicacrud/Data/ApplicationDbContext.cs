@@ -14,16 +14,54 @@ namespace Practicacrud.Data
         {
         }
         public virtual DbSet<Registro> Registro { get; set; }
-        protected override void OnModelCreating(ModelBuilder builder)
+        public virtual DbSet<Genero> Generos { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
-            builder.Entity<Registro>(re =>
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Genero>(entity =>
             {
-                re.HasKey(x => x.Codigo);
-                re.Property(x => x.Nombre).IsRequired().HasMaxLength(100).IsUnicode(false);
-                re.Property(x => x.Apellido).IsRequired().HasMaxLength(100).IsUnicode(false);
-                re.Property(x => x.Direccion).IsRequired().HasMaxLength(250).IsUnicode(false);
-                re.Property(x => x.Estado).IsRequired().IsUnicode(false);
+                entity.HasKey(e => e.Codigo);
+
+                entity.ToTable("Genero");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Estado)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<Registro>(entity =>
+            {
+                entity.HasKey(e => e.Codigo)
+                    .HasName("PK__Registro__06370DAD891D99B1");
+
+                entity.ToTable("Registro");
+
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Direccion)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.CodigoGeneroNavigation)
+                    .WithMany(p => p.Registros)
+                    .HasForeignKey(d => d.CodigoGenero)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Registro_Genero");
             });
         }
     }

@@ -32,7 +32,7 @@ namespace Practicacrud
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<ApplicationConsumidor, ConsumidorRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<ApplicationConsumidor, ConsumidorRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.ConfigureApplicationCookie(ck =>
             {

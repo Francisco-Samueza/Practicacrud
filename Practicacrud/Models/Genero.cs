@@ -14,7 +14,7 @@ namespace Practicacrud.Models
 
         public int Codigo { get; set; }
         public string Descripcion { get; set; }
-        public string Estado { get; set; }
+        public int Estado { get; set; }
 
         public virtual ICollection<Registro> Registros { get; set; }
     }

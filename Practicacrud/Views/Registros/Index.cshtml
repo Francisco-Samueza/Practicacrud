@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Practicacrud.Models.Registro>
+﻿@model IEnumerable<Practicacrud.ViewModel.RegistroViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
+            <th>
+                Género
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -48,6 +51,9 @@
                 {
                     <label>Desactivado</label>
                 }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionGenero)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Codigo" onclick="return confirm('¿Está seguro de querer editar?')">Editar</a> |
